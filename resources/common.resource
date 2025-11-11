@@ -8,7 +8,7 @@ Create Token
     [Arguments]    ${url}
 # codigo relativo a criação do token acima. Monta o json com as duas variaveis name e password, faz um Post para a url e recebe uma msg de retorno guardada na variavel response.
     ${body}    Create Dictionary    username=admin    password=password123
-    ${response}    POST    url=${url}/auth    json=${body}
+    ${response}    POST    url=${url}/auth    json=${body}    verify=${False}
 # apos o envio do usuario/senha, as informações são guardadas em uma variável token, conforme o script abaixo. 
     Status Should Be    200
     ${token}    Set Variable    ${response.json()}[token]
