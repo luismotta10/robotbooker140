@@ -24,12 +24,29 @@ Create Booking
     Log To Console    ${response_body}
 
     Status Should Be    200
-    Should Be Equal    ${response_body}[booking][firstname]    Bete
+    # como foi criado Bete em variables.py, pode alterar para firstname
+    Should Be Equal    ${response_body}[booking][firstname]    ${firstname}
     Should Be Equal    ${response_body}[booking][lastname]    Pimentinha
-    #Should Be Equal    ${response_body}[booking][totalprice]    130    
-    Should Be Equal    ${response_body}[booking][depositpaid]    false
     Should Be Equal    ${response_body}[booking][bookingdates][checkin]    2025-11-10
     Should Be Equal    ${response_body}[booking][bookingdates][checkout]    2025-11-10
     Should Be Equal    ${response_body}[booking][additionalneeds]    Breakfast
+    
+
+Get Booking
+    # incluir em variables.py as variaveis firstname e lastname
+    Get Booking Id    $url    $firstname    $lastname
+
+    ${response}    GET    url=${url}/booking/${booking_id}
+
+    ${response_body}    Set Variable    ${response.json()}
+    Log To Console    ${response_body}
+
+    Should Be Equal    ${response_body}[firstname]    ${firstname}
+    Should Be Equal    ${response_body}[lastname]    ${lastname}
+    Should Be Equal    ${response_body}[totalprice]    ${totalprice}
+    Should Be Equal    ${response_body}[depositpaid]    ${depositepaid}
+    
+
+
     
 

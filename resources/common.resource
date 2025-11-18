@@ -17,3 +17,18 @@ Create Token
     # verifica se o token está certo.
     Log To Console    ${token}
 
+Get Booking Id
+    # configura
+    [Arguments]    ${url}    ${firstname}    ${lastname}    
+    # executa / o primeiro separador é ?, nos demais é &
+    ${response}    GET    url=${url}/booking?firstname=${firstname}&lastname=${lastname}
+    # validação
+    ${response_body}    Set Variable    ${response.json()}
+    Log To Console    ${response_body}
+
+    Status Should Be    200
+
+    # criar uma variável que guardará a lista extraida do bookingid
+    ${booking_id}    Set Variable    ${response_body}[0][bookingid]
+    # tornar a variavel bookin_id publica para todo o projeto
+    Set Suite Variable    ${booking_id}
