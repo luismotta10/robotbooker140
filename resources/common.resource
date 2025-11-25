@@ -20,7 +20,7 @@ Create Token
 Get Booking Id
     # configura
     [Arguments]    ${url}    ${firstname}    ${lastname}    
-    # executa / o primeiro separador é ?, nos demais é & # o verify=false é necessario por conta co ssl
+    # executa / o primeiro separador é ?, nos demais é & # o verify=false é necessario por conta do ssl
     ${response}    GET    url=${url}/booking?firstname=${firstname}&lastname=${lastname}    verify=${False}
     # validação
     ${response_body}    Set Variable    ${response.json()}

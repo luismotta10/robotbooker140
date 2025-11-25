@@ -24,7 +24,8 @@ Create Booking
     Log To Console    ${response_body}
 
     Status Should Be    200
-    # como foi criado Bete em variables.py, pode alterar para firstname
+    # como foi criado Bete, etc em variables.py, pode alterar para firstname, etc
+    # [booking] é necessario pois todos estao abaixo dele, conforme Json response (pagina internet)
     Should Be Equal    ${response_body}[booking][firstname]    ${firstname}
     Should Be Equal    ${response_body}[booking][lastname]    ${lastname}
     Should Be Equal    ${response_body}[booking][bookingdates][checkin]    ${bookingdates}[checkin]
@@ -49,8 +50,31 @@ Get Booking
     Should Be Equal    ${response_body}[bookingdates][checkout]    ${bookingdates}[checkout]
     Should Be Equal    ${response_body}[additionalneeds]    ${additionalneeds}
     
+
+Update Booking
+    Get Booking Id    ${url}    ${firstname}    ${lastname}
+    ${headers}    Create Dictionary    Content-Type=${content_type} 
+    ...    Cookie=token=${token}
+    ${body}    Create Dictionary    firstname=${firstname} 
+    ...    lastname=${lastname}    totalprice=90    
+    ...    depositpaid=True    bookingdates=${bookingdates} 
+    ...    additionalneeds=${additionalneeds}
+        
+    # o HTTPError: 403 Client Error: Forbidden é por conta do token que não foi inserido. por isso é criado um token 
+    ${response}    PUT    url=${url}/booking/${booking_id}    json=${body}       headers=${headers}    verify=${False} 
     
+    ${response_body}    Set Variable    ${response.json()}
+    Log To Console    ${response_body}
+
+    Status Should Be    200
+
+    Should Be Equal    ${response_body}[firstname]      ${firstname}
+    Should Be Equal    ${response_body}[lastname]       ${lastname}
+    Should Be Equal    ${response_body}[totalprice]     ${{int(90)}}
+    Should Be Equal    ${response_body}[depositpaid]    ${{bool(True)}}
+    Should Be Equal    ${response_body}[bookingdates][checkin]    ${bookingdates}[checkin]
+    Should Be Equal    ${response_body}[bookingdates][checkout]    ${bookingdates}[checkout]
+    Should Be Equal    ${response_body}[additionalneeds]    ${additionalneeds}
 
 
-    
 
