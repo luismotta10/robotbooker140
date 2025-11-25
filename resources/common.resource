@@ -20,8 +20,8 @@ Create Token
 Get Booking Id
     # configura
     [Arguments]    ${url}    ${firstname}    ${lastname}    
-    # executa / o primeiro separador é ?, nos demais é &
-    ${response}    GET    url=${url}/booking?firstname=${firstname}&lastname=${lastname}
+    # executa / o primeiro separador é ?, nos demais é & # o verify=false é necessario por conta co ssl
+    ${response}    GET    url=${url}/booking?firstname=${firstname}&lastname=${lastname}    verify=${False}
     # validação
     ${response_body}    Set Variable    ${response.json()}
     Log To Console    ${response_body}
@@ -30,5 +30,5 @@ Get Booking Id
 
     # criar uma variável que guardará a lista extraida do bookingid
     ${booking_id}    Set Variable    ${response_body}[0][bookingid]
-    # tornar a variavel bookin_id publica para todo o projeto
+    # tornar a variavel booking_id publica para todo o projeto ( termo técnico => visibilidade)
     Set Suite Variable    ${booking_id}
