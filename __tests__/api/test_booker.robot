@@ -97,3 +97,12 @@ Partial Update Booking
     Should Be Equal    ${response_body}[bookingdates][checkout]    ${bookingdates}[checkout]
     Should Be Equal    ${response_body}[additionalneeds]    Jantar
 
+Delete Booking
+    Get Booking Id    ${url}    ${firstname}    ${lastname}
+    ${headers}    Create Dictionary    Cookie=token=${token}    Content-Type=${content_type}
+    # no DELETE não tem body, assim como no GET
+      
+    ${response}    DELETE    url=${url}/booking/${booking_id}    headers=${headers}    verify=${False}
+
+    # sempre verificar na documentação o código de retorno (nesse caso é 201)
+    Status Should Be    201
